@@ -15,4 +15,5 @@ async def on_ready():
 
 if __name__ == "__main__":
     client.add_cog(AdminCommands(client))
+    client.add_cog(EmojiCommands(client))
     client.run(config.token)
