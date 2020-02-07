@@ -1,6 +1,7 @@
 import json
+from typing import Optional
 
-from discord import Embed
+from discord import Embed, TextChannel
 from discord.ext import commands
 from discord.ext.commands import Bot, Context
 
@@ -20,15 +21,19 @@ class AdminCommands(commands.Cog):
 
     @commands.command(name="say", pass_context=True)
     @commands.is_owner()
-    async def cmd_say(self, ctx: Context, *, text: str):
-        await ctx.send(text)
+    async def cmd_say(self, ctx: Context, channel: Optional[TextChannel], *, text: str = ""):
+        if not channel:
+            channel = ctx.channel
+        await channel.send(text)
 
     @commands.command(name="embed", pass_context=True)
     @commands.is_owner()
-    async def cmd_embed(self, ctx: Context, *, text: str):
+    async def cmd_embed(self, ctx: Context, channel: Optional[TextChannel], *, text: str = ""):
+        if not channel:
+            channel = ctx.channel
         text = text[3:-3]
         try:
             embed_json: dict = json.loads(text)
-            await ctx.send(embed=Embed.from_dict(embed_json))
+            await channel.send(embed=Embed.from_dict(embed_json))
         except json.JSONDecodeError:
             await ctx.send("Error reading JSON")
