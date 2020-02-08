@@ -4,7 +4,7 @@ import urllib.request
 from typing import Optional, Union
 import html
 
-from discord import Emoji, TextChannel, Embed, User
+from discord import Emoji, TextChannel, Embed, User, Color
 from discord.ext import commands
 from discord.ext.commands import Bot, Context
 
@@ -13,9 +13,10 @@ class EmojiEmbed(Embed):
     def __init__(self, emoji: Emoji,
                  user: Optional[User] = None,
                  source: Optional[str] = None,
-                 timestamp: Union[datetime.datetime, Embed] = Embed.Empty):
+                 timestamp: Union[datetime.datetime, Embed] = Embed.Empty, *, desc: Optional[str] = ""):
         title = r"\:" + emoji.name + r"\:"
-        super().__init__(title=title, timestamp=timestamp)
+        color = Color.blue() if not emoji.animated else Color.red()
+        super().__init__(title=title, timestamp=timestamp, color=color)
         super().set_thumbnail(url=emoji.url)
         if user:
             super().add_field(name="Suggested by:", value=user.mention, inline=True)
