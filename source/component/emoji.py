@@ -2,6 +2,7 @@ import datetime
 import json
 import urllib.request
 from typing import Optional, Union
+import html
 
 from discord import Emoji, TextChannel, Embed, User
 from discord.ext import commands
@@ -22,7 +23,7 @@ class EmojiEmbed(Embed):
             with urllib.request.urlopen("http://www.housepetscomic.com/wp-json/oembed/1.0/embed?url=" + source) as http:
                 response = json.load(fp=http)
             super().add_field(name="Comic source:",
-                              value="[{text}]({url})".format(text=response["title"], url=source),
+                              value="[{text}]({url})".format(text=html.unescape(response["title"]), url=source),
                               inline=True)
 
 
