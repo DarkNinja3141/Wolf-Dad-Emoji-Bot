@@ -41,7 +41,7 @@ class EmojiCommands(commands.Cog):
 
     @commands.command(name="emoji", aliases=["e"], pass_context=True)
     async def cmd_emoji(self, ctx: Context,
-                        emoji: Emoji,
+                        emojis: commands.Greedy[Emoji],
                         channel: Optional[TextChannel],
                         source: Optional[str],
                         user: Optional[User],
@@ -49,4 +49,5 @@ class EmojiCommands(commands.Cog):
         if not channel:
             channel = ctx.channel
         timestamp: Union[datetime, Embed] = time_str if time_str else Embed.Empty
-        await channel.send(embed=EmojiEmbed(emoji, user=user, source=source, timestamp=timestamp))
+        for emoji in emojis:
+            await channel.send(embed=EmojiEmbed(emoji, user=user, source=source, timestamp=timestamp))
