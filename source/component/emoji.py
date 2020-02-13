@@ -16,7 +16,7 @@ class EmojiEmbed(Embed):
                  timestamp: Union[datetime.datetime, Embed] = Embed.Empty, *, desc: Optional[str] = ""):
         title = r"\:" + emoji.name + r"\:"
         color = Color.blue() if not emoji.animated else Color.red()
-        super().__init__(title=title, timestamp=timestamp, color=color)
+        super().__init__(title=title, description=desc, timestamp=timestamp, color=color)
         super().set_thumbnail(url=emoji.url)
         if user:
             super().add_field(name="Suggested by:", value=user.mention, inline=True)
