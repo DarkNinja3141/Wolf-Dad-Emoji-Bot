@@ -21,7 +21,8 @@ class EmojiEmbed(Embed):
         if user:
             super().add_field(name="Suggested by:", value=user.mention, inline=True)
         if source:
-            with urllib.request.urlopen("http://www.housepetscomic.com/wp-json/oembed/1.0/embed?url=" + source) as http:
+            req = urllib.request.Request("http://www.housepetscomic.com/wp-json/oembed/1.0/embed?url=" + source, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req) as http:
                 response = json.load(fp=http)
             super().add_field(name="Comic source:",
                               value="[{text}]({url})".format(text=html.unescape(response["title"]), url=source),
